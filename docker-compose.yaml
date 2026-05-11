@@ -1,0 +1,58 @@
+services:
+  node1:
+    build:
+      context: .
+      dockerfile: grep-node/Dockerfile
+    command: ["--port=50051"]
+    ports:
+      - "50051:50051"
+    environment:
+      - NODE_ID=node1
+    healthcheck:
+      test: ["CMD", "/grep-node", "--health-check", "--port=50051"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - grpcnet
+
+  node2:
+    build:
+      context: .
+      dockerfile: grep-node/Dockerfile
+    command: ["--port=50051"]
+    ports:
+      - "50052:50051"
+    environment:
+      NODE_ID: node2
+    healthcheck:
+      test: ["CMD", "/grep-node", "--health-check", "--port=50051"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - grpcnet
+
+  node3:
+    build:
+      context: .
+      dockerfile: grep-node/Dockerfile
+    command: ["--port=50051"]
+    ports:
+      - "50053:50051"
+    environment:
+      NODE_ID: node3
+    healthcheck:
+      test: ["CMD", "/grep-node", "--health-check", "--port=50051"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - grpcnet
+
+networks:
+  grpcnet:
+    driver: bridge

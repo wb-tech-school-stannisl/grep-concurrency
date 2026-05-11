@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package grep;
+
+option go_package = "github.com/wb-tech-school-stannisl/grep-concurrency/proto/grep;grepv1";
+
+service GrepNode {
+  rpc Search(SearchRequest) returns (SearchResponse);
+  rpc Ping(PingRequest) returns (PingResponse);
+}
+
+message SearchRequest {
+  string pattern = 1;
+  repeated string lines = 2;
+  int32 chunk_index = 3;
+  Options opts = 4;
+}
+
+message Options {
+  int32 after = 1;
+  int32 before = 2;
+  bool count_only = 3;
+  bool ignore_case = 4;
+  bool invert = 5;
+  bool fixed = 6;
+  bool line_num = 7;
+}
+
+message SearchResponse {
+  repeated string matches = 1;
+  int32 count = 2;
+  int32 chunk_index = 3;
+  string node_id = 4;
+  bool ok = 5;
+  string error = 6;
+}
+
+message PingRequest {}
+
+message PingResponse {
+  string node_id = 1;
+}
